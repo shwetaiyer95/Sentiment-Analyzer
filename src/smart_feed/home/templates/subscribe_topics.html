@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Manage subscriptions</title>
+    <style>
+            .smart_tweet h1 {
+                padding: 20px;
+                font-size: 4rem;
+                font-weight: 600;
+            }
+
+            .smart_tweet label {
+                color: white;
+                font-size: 18px;
+            }
+
+            .add_another_topic {
+                margin-top: 5px;
+            }
+
+            .submit-margin {
+                margin-top: 20px;
+            }
+
+
+    </style>
+    <script>
+        function add_topic() {
+<!--                div = input = document.createElement('div');-->
+                input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('name', 'topics');
+                subscribeLabel = document.getElementById('topicInput');
+<!--                subscribeLabel.appendChild(document.createElement('br'));-->
+                subscribeLabel.parentNode.insertBefore(document.createElement('br'), subscribeLabel.nextSibling);
+                subscribeLabel.parentNode.insertBefore(input, subscribeLabel.nextSibling);
+            }
+
+
+    </script>
+</head>
+<!--<body id="bg"-->
+<!--      style="background-image: url('{% static 'imgs/bg.jpg' %}'); background-repeat: no-repeat; background-size: cover;">-->
+<body id="bg"
+      style="background-image: url('https://smartfeed-static-files.s3.amazonaws.com/static/imgs/bg.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+<nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+
+    <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/topics">Subscribed Topics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/sentiments">View sentiments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="body">
+    <section class="smart_tweet">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 class="animate__animate animate__heartBeat animate__infinite text-center" style="color: #d6e2e1">
+                Subscribe
+                to
+                topics here!</h1>
+            <div class="container w-50">
+                <div class="row px-5 pt-5">
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="soccer" name="checks[]" value="Soccer">
+                        <label class="form-check-label" for="soccer"> Soccer</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="anime" name="checks[]" value="Anime">
+                        <label class="form-check-label" for="anime"> Anime</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="potter" name="checks[]" value="NFL">
+                        <label class="form-check-label" for="potter"> NFL</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="tennis" name="checks[]" value="Tennis">
+                        <label class="form-check-label" for="tennis"> Tennis</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="mets" name="checks[]" value="Movies">
+                        <label class="form-check-label" for="mets"> Movies</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="apple" name="checks[]" value="Elections">
+                        <label class="form-check-label" for="apple"> Elections</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="weather" name="checks[]" value="Weather">
+                        <label class="form-check-label" for="weather"> Weather</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="hollywood" name="checks[]"
+                               value="Hollywood">
+                        <label class="form-check-label" for="hollywood"> Hollywood</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="food" name="checks[]" value="Food">
+                        <label class="form-check-label" for="food"> Food</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" type="checkbox" id="covid" name="checks[]" value="Covid">
+                        <label class="form-check-label" for="covid"> Covid</label>
+                    </div>
+
+                    <input type="text" name="topics" id="topicInput" value="{{ topic }}">
+                    <div>
+                        <button id="add" class="btn btn-secondary w-75 add_another_topic" type="button"
+                                onclick="add_topic()">Add another topic
+                        </button>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-secondary submit-btn w-50 submit-margin">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweet Sentiments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+            .smart_tweet h1 {
+                padding: 20px;
+                font-size: 4rem;
+                font-weight: 600;
+            }
+            .subscribe-form .dropdown {
+                display: block;
+                width: 100%;
+                height: 36px;
+                background:transparent;
+                color: #604242;
+                border-width: 0 0 2px 0;
+                border-color: #604242;
+                font-size: 18px;
+                font-weight:400;
+            }
+            .submit-btn{
+                display: inline-block;
+                background-image: linear-gradient(125deg,#604242,#B27F7F);
+                color: #fff;
+                font-size: 16px;
+                padding: 8px 16px;
+                border: none;
+                width: 200px;
+                cursor:pointer;
+            }
+            .smart_tweet label {
+                color: white;
+            }
+    </style>
+</head>
+
+<!--<body id="bg"-->
+<!--      style="background-image: url('{% static 'imgs/bg.jpg' %}'); background-repeat: no-repeat; background-size: cover;">-->
+<body id="bg"
+      style="background-image: url('https://smartfeed-static-files.s3.amazonaws.com/static/imgs/bg.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+
+    <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/topics">Subscribed Topics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/sentiments">View sentiments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="body">
+    <section class="smart_tweet">
+        <h1 class="animate__animate animate__heartBeat animate__infinite text-center" style="color: #d6e2e1">
+            Options</h1>
+        <form method="post">
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="subscribe-form row">
+                    <div class="form-field col-lg-4 text-center">
+                        <select name="topic" class="btn btn-secondary dropdown-toggle" id="type">
+                            <option value="none" selected disabled hidden>Select subscription</option>
+                            {% for selected_topic in topics %}
+                            <option>{{ selected_topic }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-field col-lg-4 text-center">
+                        <select name="vibe" class="btn btn-secondary dropdown-toggle" id="vibe">
+                            <option value="none" selected disabled hidden>Select sentiment</option>
+                            <option value="ALL">ALL</option>
+                            <option value="NEUTRAL">NEUTRAL</option>
+                            <option value="POSITIVE">POSITIVE</option>
+                            <option value="NEGATIVE">NEGATIVE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field col-lg-2 text-center">
+                        <div class="form-field col-lg-12">
+                            <button type="submit" class="btn btn-secondary submit-btn">Submit</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            {% if results %}
+            <section class="bg-light p-5">
+                <h3 class="pb-2">Smart Feed</h3>
+                <div class="table-responsive" id="no-more-tables">
+                    <table class="table bg-white">
+                        <thead class="bg-dark text-light">
+                        <tr>
+                            <th>Tweet</th>
+                            <th>User</th>
+                            <th>Hashtags</th>
+                            <th>Sentiment</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in results %}
+                        <tr>
+                            <td data-title="Tweet">{{ item.tweet }}</td>
+                            <td data-title="User">{{ item.user }}</td>
+                            <td data-title="Hashtags">{{ item.hashtags }}</td>
+                            <td data-title="Sentiment">{{ item.mood }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+            {% endif %}
+
+        </form>
+
+    </section>
+</div>
+</body>
+</html>
